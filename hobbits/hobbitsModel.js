@@ -9,7 +9,13 @@ module.exports = {
 };
 
 async function insert(hobbit) {
-  return null;
+  // the second parameter in insert is for databases other than SQLite;
+  // they typically have a different response, not sending back just the id
+  const [id] = await db('hobbits').insert(hobbit, 'id');
+
+  return db('hobbits')
+    .where({ id })
+    .first();
 }
 
 async function update(id, changes) {
